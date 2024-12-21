@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Interval Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- DateTimePicker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Date Interval Calculator</h2>
+        <form id="dateIntervalForm">
+            <div class="form-group">
+                <label for="fromDate">From:</label>
+                <input type="text" id="fromDate" class="form-control datetimepicker" placeholder="Select start date">
+            </div>
+            <div class="form-group">
+                <label for="toDate">To:</label>
+                <input type="text" id="toDate" class="form-control datetimepicker" placeholder="Select end date">
+            </div>
+            <button type="button" id="calculateBtn" class="btn btn-primary btn-block">Calculate</button>
+        </form>
+        <div id="result" class="mt-4 card p-3 d-none">
+            <h4>Date Interval:</h4>
+            <p><b>In years:</b> <span id="years"></span></p>
+            <p><b>In months:</b> <span id="months"></span></p>
+            <p><b>In weeks:</b> <span id="weeks"></span></p>
+            <p><b>In days:</b> <span id="days"></span></p>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DateTimePicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize datetimepicker
+            $('.datetimepicker').datetimepicker({
+                format: 'MM/DD/YYYY',
+                useCurrent: false,
+            });
+
+            // Handle Calculate Button Click
+            $('#calculateBtn').click(function () {
+                // Fetch dates from input fields
+                let fromDate = $('#fromDate').data('DateTimePicker').date();
+                let toDate = $('#toDate').data('DateTimePicker').date();
+
+                // Ensure both dates are selected
+                if (!fromDate || !toDate) {
+                    alert('Please select both dates.');
+                    return;
+                }
+
+                // Calculate the interval
+                let diffInDays = toDate.diff(fromDate, 'days');
+                let diffInWeeks = toDate.diff(fromDate, 'weeks');
+                let diffInMonths = toDate.diff(fromDate, 'months');
+                let diffInYears = toDate.diff(fromDate, 'years');
+
+                // Display the result
+                $('#years').text(diffInYears);
+                $('#months').text(diffInMonths);
+                $('#weeks').text(diffInWeeks);
+                $('#days').text(diffInDays);
+
+                $('#result').removeClass('d-none');
+            });
+        });
+    </script>
+</body>
+</html>
